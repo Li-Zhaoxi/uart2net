@@ -19,6 +19,7 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         src/main.cpp \
+        src/message_log.cpp \
         src/parmsuart2net.cpp \
         src/serialport.cpp \
         src/tcpclinet.cpp \
@@ -35,6 +36,7 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
+    src/message_log.h \
     src/serialport.h \
     src/tcpclinet.h \
     src/tcpserver.h \

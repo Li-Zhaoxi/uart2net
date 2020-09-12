@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
 
 
     ParmsUART2NET parms;
-    //parms.write_config();
+    parms.write_config();
     parms.read_config("uart2net.ini");
     parms.show_config();
     // FUN1: Ğ´Ò»¸öÅäÖÃÊ¾Àı

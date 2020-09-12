@@ -16,18 +16,10 @@
 #include "serialport.h"
 
 #include "uart2net_definitions.h"
+#include "message_log.h"
 
-#define VAR_NAME(name) #name
 
-enum UART2NET_MESSAGE
-{
-    MESSAGE_SUCCESS,
-    INI_NOT_EXIST,
-    LOST_ELEMENTS,
-    UART_OPEN_FAILED,
-    SERVER_CREATE_FAILED,
-    CLIENT_CREATE_FAILED
-};
+
 
 class ParmsUART2NET
 {
@@ -35,6 +27,7 @@ public:
     ParmsUART2NET();
     int isServer;
     int monitor_interval; // 监听时间间隔
+    int needLog;
     // 串口配置参数
     QString comnum; // 串口号
     unsigned int btl;     // 波特率
@@ -43,8 +36,6 @@ public:
     QString hostip; // 服务器IP地址
     unsigned short tcpport; // 服务器端口号
     unsigned short heartbeattime; // 服务器发送心跳包间隔，ms
-    unsigned char needLog; // 是否需要记录日志文件
-    unsigned char needShowConsole;
 
 
 
