@@ -1,0 +1,4 @@
+/python/*.pyd
+/python/build
+
+*.pro.user
