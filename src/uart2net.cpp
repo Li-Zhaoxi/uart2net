@@ -17,13 +17,23 @@ UART2NET::~UART2NET()
     delete[] tcp_client;
 }
 
+unsigned char UART2NET::load_config(QString load_path)
+{
+    return parms.read_config(load_path);
+}
+
+void UART2NET::show_config()
+{
+    parms.show_config();
+}
+
 unsigned char UART2NET::run_server(QString comnum, qint32 btl, quint16 tcpport)
 {
     parms.isServer = UART2NET_SERVER;
 
     int err;
 
-    err = serialport->run(comnum, btl);
+    err = serialport->run(comnum, btl, parms.monitor_interval);
     if(err <=0 )
     {
         return UART_OPEN_FAILED;
@@ -147,29 +157,17 @@ void UART2NET::uart2net_safe_quit()
 }
 
 
-void UART2NET::run_uart2net()
+unsigned char UART2NET::run_uart2net()
 {
-    if(parms.isServer = UART2NET_SERVER)
+    if(parms.isServer == UART2NET_SERVER)
     {
-        run_server(parms.comnum, parms.btl, parms.tcpport);
+        return run_server(parms.comnum, parms.btl, parms.tcpport);
     }
     else if (parms.isServer == UART2NET_CLIENT)
     {
-        run_client(parms.comnum, parms.btl, parms.hostip, parms.tcpport);
+        return run_client(parms.comnum, parms.btl, parms.hostip, parms.tcpport);
     }
-
-    /*
-    if(uart2netconfig.isServer == UART2NET_SERVER) // 创建服务器端
-    {
-        run_server(uart2netconfig.comnum, uart2netconfig.btl,
-                   uart2netconfig.tcpport);
-    }
-    else if(uart2netconfig.isServer == UART2NET_CLIENT) // 创建客户端
-    {
-        run_client(uart2netconfig.comnum, uart2netconfig.btl,
-                   uart2netconfig.hostip, uart2netconfig.tcpport);
-    }*/
-
+    return MESSAGE_SUCCESS;
 }
 
 

@@ -1,5 +1,6 @@
 #include "message_log.h"
 
+message_log *msglog = nullptr;
 
 message_log::message_log()
 {
@@ -26,6 +27,13 @@ void message_log::write(QByteArray data, QString dtype)
     file->write(out_str.toStdString().c_str());
 }
 
+void message_log::write(QString str, QString dtype)
+{
+    auto time2 = QDateTime::currentDateTime();
+    QString current_date =time2.toString("[yyyy-MM-dd-hh-mm-ss-zzz]: ");
+    QString out_str = current_date + QString("C") + dtype + QString(")") + str + "\n";
+    file->write(out_str.toStdString().c_str());
+}
 
 
 unsigned char message_log::create(QString save_path)

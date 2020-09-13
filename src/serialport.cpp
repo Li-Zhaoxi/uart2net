@@ -10,6 +10,7 @@ SerialPort::SerialPort()
 {
     serialport = new QSerialPort;
     hasbeenclosed = 1;
+    loop_interval = 5;
 }
 
 SerialPort::~SerialPort()
@@ -39,16 +40,24 @@ int SerialPort::run(QString comnum, qint32 btl)
     }
 }
 
+int SerialPort::run(QString comnum, qint32 btl, int loop_interval)
+{
+    this->loop_interval = loop_interval;
+    return this->run(comnum, btl);
+}
+
 void SerialPort::begin_to_receive()
 {
     rcvdata = serialport->readAll();
 
     emit signals_serial_receive(rcvdata);
 
+    if(msglog)
+        msglog->write(rcvdata, "RCVUART");
 #if defined(LINUX) || defined(UNIX)
-    usleep(5000);
+    usleep(loop_interval * 1000);
 #elif defined(WINDOWS)
-    Sleep(5);
+    Sleep(loop_interval);
 #endif
 
 #ifdef DEBUG_SERIAL_PORT_RECEIVE
@@ -65,8 +74,9 @@ void SerialPort::send(QByteArray portdata)
     if(serialport != nullptr)
     {
         qint64 res = serialport->write(portdata);
-        //serialport->flush();
-        //printf("Send length: %d\n", res);
+
+        if(msglog)
+            msglog->write(portdata, "SDUART");
 #ifdef DEBUG_SERIAL_PORT_SEND
         //printf("Serial send: %s\n", ByteArrayToHexString(portdata).toStdString().c_str());
 #endif

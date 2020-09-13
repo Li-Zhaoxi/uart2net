@@ -1,5 +1,6 @@
 #ifndef UART2NET_DEFINITIONS_H
 #define UART2NET_DEFINITIONS_H
+#include <iostream>
 
 #define VAR_NAME(name) #name
 enum UART2NET_TYPE
@@ -18,6 +19,7 @@ enum UART2NET_MESSAGE
     CLIENT_CREATE_FAILED,
     LOG_CREATE_FAILED
 };
+void ShowMessageState(unsigned char id);
 
 #define UART2NET_SUCCESS 1
 #define UART2NET_UNABLE_OPEN_CONFIG -1

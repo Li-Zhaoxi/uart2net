@@ -6,6 +6,7 @@ ParmsUART2NET::ParmsUART2NET()
     isServer = 0;
     monitor_interval = 5;
     needLog = 0;
+    logpath = "log.txt";
     comnum = "COM3";
     btl = 9600;
     hostip = "172.0.0.0";
@@ -22,6 +23,7 @@ unsigned char ParmsUART2NET::write_config(QString save_path)
     configiniWrite->setValue(QString(VAR_NAME(isServer)), isServer);
     configiniWrite->setValue(QString(VAR_NAME(monitor_interval)), monitor_interval);
     configiniWrite->setValue(QString(VAR_NAME(needLog)), needLog);
+    configiniWrite->setValue(QString(VAR_NAME(logpath)), logpath);
 
 
     configiniWrite->setValue(QString("uart/") + QString(VAR_NAME(comnum)), comnum);
@@ -67,6 +69,11 @@ unsigned char ParmsUART2NET::read_config(QString load_path)
     else
         return LOST_ELEMENTS;
 
+    if(configiniRead->contains(QString(VAR_NAME(logpath))))
+        logpath = configiniRead->value(QString(VAR_NAME(logpath))).toString();
+    else
+        return LOST_ELEMENTS;
+
     if(configiniRead->contains(QString("uart/") + QString(VAR_NAME(comnum))))
         comnum = configiniRead->value(QString("uart/") + QString(VAR_NAME(comnum))).toString();
     else
@@ -92,6 +99,13 @@ unsigned char ParmsUART2NET::read_config(QString load_path)
     else
         return LOST_ELEMENTS;
 
+    if(needLog)
+    {
+        msglog = new message_log();
+        if(msglog->create(logpath) != MESSAGE_SUCCESS)
+            return LOG_CREATE_FAILED;
+    }
+
     return MESSAGE_SUCCESS;
 }
 
@@ -101,6 +115,8 @@ void ParmsUART2NET::show_config()
     std::cout << "GENERAL:" << std::endl;
     std::cout << "    " << VAR_NAME(isServer) << ": " << isServer << std::endl;
     std::cout << "    " << VAR_NAME(monitor_interval) << ": " << monitor_interval << std::endl;
+    std::cout << "    " << VAR_NAME(needLog) << ": " << needLog << std::endl;
+    std::cout << "    " << VAR_NAME(logpath) << ": " << logpath.toStdString() << std::endl;
     std::cout << "UART:" << std::endl;
     std::cout << "    " << VAR_NAME(comnum) << ": " << comnum.toStdString() << std::endl;
     std::cout << "    " << VAR_NAME(btl) << ": " << btl << std::endl;

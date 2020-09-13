@@ -13,11 +13,12 @@ public:
     ~message_log();
     unsigned char create(QString save_path);
     void write(QByteArray data, QString dtype);
+    void write(QString str, QString dtype);
 
 private:
     QFile *file;
 };
 
-
+extern message_log *msglog;
 
 #endif // MESSAGE_LOG_H

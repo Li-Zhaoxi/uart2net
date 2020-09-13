@@ -28,6 +28,7 @@ public:
     int isServer;
     int monitor_interval; // 监听时间间隔
     int needLog;
+    QString logpath;
     // 串口配置参数
     QString comnum; // 串口号
     unsigned int btl;     // 波特率
@@ -52,9 +53,10 @@ class UART2NET: public QObject
 public:
     UART2NET();
     ~UART2NET();
-
+    unsigned char load_config(QString load_path);
+    void show_config();
     // 总程序
-    void run_uart2net();
+    unsigned char run_uart2net();
     // 建立串口wifi服务器端
     unsigned char run_server(QString comnum, qint32 btl, quint16 tcpport);
     // 建立串口wifi客户端

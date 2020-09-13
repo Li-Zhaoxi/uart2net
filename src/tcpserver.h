@@ -9,6 +9,8 @@
 #include "tcpsocket.h"
 
 #include "uart2net_definitions.h"
+#include "message_log.h"
+
 
 class TcpServer : public QTcpServer
 {

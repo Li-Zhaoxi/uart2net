@@ -3,6 +3,7 @@
 
 #include <QSerialPort>
 #include "uart2net_definitions.h"
+#include "message_log.h"
 
 class SerialPort : public QSerialPort
 {
@@ -11,12 +12,14 @@ public:
     SerialPort();
     ~SerialPort();
     int run(QString comnum, qint32 btl);
+    int run(QString comnum, qint32 btl, int loop_interval);
     void send(QByteArray portdata);
     void close();
 private:
     QSerialPort *serialport;
     QByteArray rcvdata;
     int hasbeenclosed;
+    int loop_interval;
 public slots:
     void begin_to_receive(); //槽函数：接收串口消息
 

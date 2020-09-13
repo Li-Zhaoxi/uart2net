@@ -41,6 +41,14 @@ void TcpServer::incomingConnection(qintptr socketDescriptor)
             tcpsocket->peerAddress().toString().toStdString().c_str(),
             tcpSocketConnetList.count());
 #endif
+     if(msglog)
+     {
+         char tmp[1024];
+         sprintf(tmp, "New connection. IP: %s, total %d.\n",
+                 tcpsocket->peerAddress().toString().toStdString().c_str(),
+                 tcpSocketConnetList.count());
+         msglog->write(QString(tmp), "SERVERNEW");
+     }
 
 }
 
