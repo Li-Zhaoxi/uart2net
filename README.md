@@ -3,25 +3,6 @@
 
 在当前项目背景下，要实现的需求如下图所示
 
-```mermaid
-graph LR
-A[无人机飞控串口A] --串口发送--> B[无人机上位机串口B]
-B -- 串口发送 --> A
-linkStyle 0 stroke:#ff0000,stroke-width:2px;
-linkStyle 1 stroke:#0000FF,stroke-width:2px;
-B -- 数据传递 -->C[无人机客户端]
-C -- 数据传递  --> B
-linkStyle 2 stroke:#ff0000,stroke-width:2px;
-linkStyle 3 stroke:#0000FF,stroke-width:2px;
-C -- TCP发送 -->D[地面站服务端]
-D -- TCP发送 -->C
-linkStyle 4 stroke:#ff0000,stroke-width:2px;
-linkStyle 5 stroke:#0000FF,stroke-width:2px;
-D -- 串口发送 --> E[无人机地面站]
-E -- 串口发送 --> D
-linkStyle 6 stroke:#ff0000,stroke-width:2px;
-linkStyle 7 stroke:#0000FF,stroke-width:2px;
-```
 
 实际上，正常的无人机与地面之间的通信用的是数传模块，无人机和地面站之间都是通过串口连接到这个模块上。模块和模块之间的通信利用远程无线电进行通信。
 
